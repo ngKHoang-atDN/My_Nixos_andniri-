@@ -1,12 +1,22 @@
 @import "./colors.css";
-window#waybar {
-  background-color: @background;
-  color: @on_surface;
+wwindow#waybar {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+window#waybar > box {
+    background: transparent !important;
+    margin: 0;
+    padding: 0;
 }
 * {
   font-family: "JetBrainsMono Nerd Font Propo";
   font-weight: bold;
   min-height: 0;
+  margin: 0;
   /* set font-size to 100% if font scaling is set to 1.00 using nwg-look */
   font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
 }
@@ -19,12 +29,14 @@ tooltip label {
   color: @on_surface;
 }
 /*-----module groups----*/
-.modules-right,
+.modules-left,
 .modules-center,
-.modules-left {
-  color: @secondary;
-  border-radius: 20px;
-  padding: 2px 4px;
+.modules-right,
+.horizontal > widget > box {
+    background: rgba(30, 30, 46, 0.75); /* Đổi sang màu nền mong muốn (vd: @surface hoặc rgba hex) */
+    border-radius: 12px;
+    padding: 2px 8px;
+    margin-top: 0px;                     /* Đưa sát mép trên */
 }
 /*-----modules indv----*/
 #workspaces button {
