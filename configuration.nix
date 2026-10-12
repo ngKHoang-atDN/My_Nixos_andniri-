@@ -2,19 +2,11 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-<<<<<<< HEAD
 { config, pkgs, lib ,  ... }:
 
 
 let
   unstable = import <unstable> {};
-=======
-{ config, pkgs, ... }:
-
-
-let
-  unstable = import <nixpkgs-unstable> {};
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
 in
 
 {  
@@ -92,7 +84,6 @@ in
 
    systemd.services."fcitx5-lotus-server@miyabi" = {   
       wantedBy = [ "multi-user.target" ];   
-<<<<<<< HEAD
       overrideStrategy = "asDropin"; 
       serviceConfig = {
         User = "miyabi";
@@ -100,11 +91,6 @@ in
  };
   
 
-=======
-      overrideStrategy = "asDropin";  };
-  
- 
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
   
 
    #nix setting 
@@ -116,11 +102,7 @@ in
 
   # Configure keymap in X11
   services.xserver.xkb = {
-<<<<<<< HEAD
     layout = "u	s";
-=======
-    layout = "us";
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
     variant = "";
   };
 
@@ -146,18 +128,13 @@ in
   users.users."miyabi" = {
     isNormalUser = true;
     description = "Nguyen Hoang";
-<<<<<<< HEAD
     extraGroups = [ "networkmanager" "wheel" "input" "dialout" "uucp"  ];
-=======
-    extraGroups = [ "networkmanager" "wheel" "input"  ];
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
     packages = with pkgs; [
     #  thunderbird
     ];
    shell = pkgs.fish;
   };
 
-<<<<<<< HEAD
   
   
   #Zram
@@ -168,8 +145,6 @@ in
 
   systemd.oomd.enable = true;
   
-=======
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
   # Install firefox.
   programs.firefox.enable = true;
   programs.niri.enable = true;
@@ -181,20 +156,16 @@ in
   programs.fish.interactiveShellInit = ''
   starship init fish | source
 '';
-<<<<<<< HEAD
 
   # Appimage
   programs.appimage = {
    enable = true;
    binfmt = false;
   };
-=======
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
   
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-<<<<<<< HEAD
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
   "corefonts"
   ];
@@ -202,8 +173,6 @@ in
   corefonts
   ];
 
-=======
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   # environment.systemPackages = with pkgs; [
@@ -213,12 +182,8 @@ in
   environment.systemPackages = with pkgs; [
      git
      unstable.lookapp
-<<<<<<< HEAD
      onlyoffice-desktopeditors
      appimage-run
-=======
-     libreoffice
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
      
      #dotfile 
      niri
@@ -234,12 +199,9 @@ in
      grim
      slurp
      wl-clipboard
-<<<<<<< HEAD
      cliphist
      imagemagick
      gawk
-=======
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
      
      #shell and lang program
      bash
@@ -254,7 +216,6 @@ in
      curl
      python3
      usbutils
-<<<<<<< HEAD
 
     #vscode
     vscode
@@ -272,10 +233,6 @@ in
         udev
   ];
   
-=======
-      
-  ];
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
   
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -290,11 +247,8 @@ in
 	  
   services.flatpak.enable = true ;  
   services.fprintd.enable = true;
-<<<<<<< HEAD
   services.thermald.enable = true;  
 
-=======
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
@@ -332,7 +286,3 @@ in
   security.pam.services.sudo.fprintAuth = true;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7153ab3cae36e26557e5cd991e307162523f0c83
