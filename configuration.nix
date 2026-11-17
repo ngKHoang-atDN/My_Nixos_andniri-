@@ -7,15 +7,28 @@
 
 let
   unstable = import <unstable> {};
+   sources = import ./npins/default.nix;
+  cachy-source = import sources.nix-cachyos-kernel;
+  cachy-kernel =
+    cachy-source.outputs.legacyPackages.x86_64-linux.linuxPackages-cachyos-bore-lto-x86_64-v3;  
 in
 
 {  
+  #custom kernel  
+  boot.kernelPackages = cachy-kernel;
+  
+  nix.settings.substituters = [ "https://cache.lantian.pub/lantian" ];
+  nix.settings.trusted-public-keys = [ "lantian:WVGO7vsRMSEN+h7Lp7kv6SAmrkEXgUGbbXm7jMDjBuQ=" ];
+
+
 
   nix.gc = {
   automatic = true;
   dates = "weekly";
   options = "--delete-older-than 7d";
   };
+  
+  nix.settings.auto-optimise-store = true;
 
   imports =
     [ # Include the results of the hardware scan.
@@ -27,7 +40,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -80,6 +93,7 @@ in
      XMODIFIERS = "@im=fcitx"; 
      SDL_IM_MODULE = "fcitx"; 
      GLFW_IM_MODULE = "ibus";
+     _JAVA_AWT_WM_NONREPARENTING = "1";
    };
 
    systemd.services."fcitx5-lotus-server@miyabi" = {   
@@ -95,6 +109,7 @@ in
 
    #nix setting 
    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   nix.settings.trusted-users = [ "root" "miyabi" ];
 
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = true;
@@ -128,11 +143,12 @@ in
   users.users."miyabi" = {
     isNormalUser = true;
     description = "Nguyen Hoang";
-    extraGroups = [ "networkmanager" "wheel" "input" "dialout" "uucp"  ];
+    extraGroups = [ "networkmanager" "wheel" "input" "dialout" "uucp" "docker"  ];
     packages = with pkgs; [
     #  thunderbird
     ];
    shell = pkgs.fish;
+   
   };
 
   
@@ -172,6 +188,10 @@ in
   fonts.packages = with pkgs; [
   corefonts
   ];
+  
+  #docker
+  virtualisation.docker.enable = true;
+
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
@@ -181,9 +201,13 @@ in
   # ];
   environment.systemPackages = with pkgs; [
      git
-     unstable.lookapp
-     onlyoffice-desktopeditors
+    
+     unstable.onlyoffice-desktopeditors
      appimage-run
+     unstable.winboat
+  
+     unar
+     file-roller      
      
      #dotfile 
      niri
@@ -222,7 +246,7 @@ in
     vscode.fhs
       
   ];
-
+  hardware.graphics.enable = true;
   #nix ld
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
@@ -280,9 +304,12 @@ in
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "26.05"; # Did you read the comment?
- 
+   
+  services.usbmuxd.enable = true;
+  
   # user system pack
   security.pam.services.gdm.fprintAuth = true;  
   security.pam.services.sudo.fprintAuth = true;
 }
+
 
